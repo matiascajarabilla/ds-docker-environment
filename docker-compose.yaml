@@ -1,24 +1,12 @@
 services:
-  jupyter:
+  workspace:
     build: .
-    container_name: jupyter_lab
+    container_name: ds_workspace
     restart: unless-stopped
     ports:
-      - "${JUPYTER_PORT}:8888"
+      - "8888:8888"
     environment:
+      - TZ=America/Argentina/Buenos_Aires
       - JUPYTER_TOKEN=${JUPYTER_TOKEN}
-      - TZ=${TIMEZONE}
     volumes:
-      - ${PROJECTS_DIR}:/app/notebooks
-
-  vscode:
-    image: lscr.io/linuxserver/code-server:latest
-    container_name: vscode
-    restart: unless-stopped
-    ports:
-      - "${VSCODE_PORT}:8443"
-    environment:
-      - PASSWORD=${VSCODE_PASSWORD}
-      - TZ=${TIMEZONE}
-    volumes:
-      - ${PROJECTS_DIR}:/config/workspace
+      - ./notebooks:/app/notebooks
